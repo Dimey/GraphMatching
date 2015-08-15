@@ -13,8 +13,8 @@ import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
 
 public class DHMain {
  
-  private static final String XML_DATA = "src/DataGraphWithoutCircle.xml";
-  private static final String XML_PATTERN = "src/PatternGraphWithoutCircle.xml";
+  private static final String XML_DATA = "src/GraphFiles/DataGraphWithoutCircle.xml";
+  private static final String XML_PATTERN = "src/GraphFiles/PatternGraphWithoutCircle.xml";
  
   public static void main(String[] args) throws Exception {
     Graph masterGraph = new TinkerGraph();

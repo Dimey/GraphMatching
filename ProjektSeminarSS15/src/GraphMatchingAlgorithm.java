@@ -12,7 +12,6 @@ public class GraphMatchingAlgorithm {
 	static ArrayList<Vertex> patternNodesWithListAndStack = new ArrayList<Vertex>();
 
 	public static ArrayList<Vertex> getSolutions(ArrayList<Vertex> dataNodes, ArrayList<Vertex> patternNodes) {
-		//ArrayList<ArrayList<Vertex>> solutions = null;
 		// Initialisiere Listen und Stacks
 		initiateListsAndStacks(dataNodes, patternNodes);
 		
@@ -21,7 +20,7 @@ public class GraphMatchingAlgorithm {
 		
 		// Wende rekursiven Algorithmus auf PatternNodes an
 		Vertex root = getRoot(patternNodes);
-		treeMatch(getRoot(patternNodes));
+		treeMatch(root);
 		
 		// Extrahiere EINE Lösung aus dem Stack der Wurzel
 		return extractSolution(root);
@@ -107,17 +106,18 @@ public class GraphMatchingAlgorithm {
 		int childIndex = 0; 
 		ArrayList<Vertex> children = makeArrayList(GraphNumbering.getChildren(patternNode));
 		Iterator<Vertex> targetListIterator = ((ArrayList<Vertex>) children.get(childIndex).getProperty("targetList")).iterator();
-		/*qi(i = 0,1,...,N − 1) are q’s children */
+		/* Mit childIndex werden verschiedene Kinder des PatternNode addressiert*/
 		while (partialSolution || targetListIterator.hasNext()) {
+			Vertex currentChild = children.get(childIndex);
 			Vertex currentTarget = null;
 			if (targetListIterator.hasNext()) {
 				currentTarget = targetListIterator.next();
 				// Speichere aktuelles Element der TargetListe im Knoten
-				children.get(childIndex).setProperty("currentTarget", currentTarget);
+				currentChild.setProperty("currentTarget", currentTarget);
 			}
 			if ((currentTarget == null) || (Integer) currentTarget.getProperty("start") > (Integer) ((Vertex) patternNode.getProperty("currentTarget")).getProperty("end")) {
 				if (partialSolution) {
-					childIndex = childIndex + 1;
+					childIndex++;
 					// Initialisiere neuen Iterator für neues Kind, aber nur wenn der Index valide ist
 					if (childIndex < numberOfChildren)
 						targetListIterator = ((ArrayList<Vertex>) children.get(childIndex).getProperty("targetList")).iterator();
@@ -134,9 +134,9 @@ public class GraphMatchingAlgorithm {
 					return true;
 			} else if ((Integer) currentTarget.getProperty("start") < (Integer) ((Vertex) patternNode.getProperty("currentTarget")).getProperty("start")) {
 				// Zurück zur while-Schleife
-			} else if ((Integer)currentTarget.getProperty("depth") == (Integer)((Vertex) patternNode.getProperty("currentTarget")).getProperty("depth")+1 && find(children.get(childIndex))) {
+			} else if ((Integer)currentTarget.getProperty("depth") == (Integer)((Vertex) patternNode.getProperty("currentTarget")).getProperty("depth")+1 && find(currentChild)) {
 					   ArrayList<Vertex> potentialSolution = new ArrayList<Vertex>(Arrays.asList(currentTarget, (Vertex) patternNode.getProperty("currentTarget")));
-				       ((Stack<ArrayList<Vertex>>) children.get(childIndex).getProperty("solutionStack")).push(potentialSolution); 
+				       ((Stack<ArrayList<Vertex>>) currentChild.getProperty("solutionStack")).push(potentialSolution); 
 				       partialSolution=true;
 			}
 		}
@@ -184,9 +184,8 @@ public class GraphMatchingAlgorithm {
 		return null;
 	}
 
-	// Später auf private setzen
 	@SuppressWarnings("unchecked")
-	public static void sortTListsByStartValue(ArrayList<Vertex> patternNodes) {
+	private static void sortTListsByStartValue(ArrayList<Vertex> patternNodes) {
 		for (Vertex patternNode : patternNodes) {
 			Collections.sort((ArrayList<Vertex>)patternNode.getProperty("targetList"), new Comparator<Vertex>() {
 		        public int compare(Vertex target1, Vertex target2) {
@@ -196,8 +195,7 @@ public class GraphMatchingAlgorithm {
 	    }
 	}
 
-	// Später auf private setzen
-	public static void initiateListsAndStacks(ArrayList<Vertex> dataNodes, ArrayList<Vertex> patternNodes) {
+	private static void initiateListsAndStacks(ArrayList<Vertex> dataNodes, ArrayList<Vertex> patternNodes) {
 		patternNodesWithListAndStack.clear();
 		for (Vertex patternNode : patternNodes) {
 			String patternNodeOperationType = patternNode.getProperty("operationType");
