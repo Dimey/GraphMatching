@@ -37,13 +37,14 @@ public class DHMain {
     ArrayList<Vertex> patternNodes = (ArrayList<Vertex>) patternGraph.getVertices();
     
     // Übergebe nummerierte Knoten und die Knoten des gesuchten Pattern dem Algorithmus
+    // Wenn es eine Übereinstimmung gibt, gebe EINE mögliche Lsg zurück, ansonsten Null
     ArrayList<Vertex> solution = GraphMatchingAlgorithm.getSolutions(dataNodes, patternNodes);
     
     if (solution == null) {
     	System.out.println("Keine Übereinstimmung gefunden!");
     } else {
     	System.out.println("Der Datengraph muss folgende Knoten einsetzen, um den Datenfluss des Kunden abzubilden:");
-    	for (Vertex solutionNode  : solution) {
+    	for (Vertex solutionNode : solution) {
     		System.out.println(solutionNode.getId() + "_" + solutionNode.getProperty("operationType"));
     	}
     }

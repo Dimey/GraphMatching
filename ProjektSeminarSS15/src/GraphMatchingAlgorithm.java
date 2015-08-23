@@ -17,6 +17,7 @@ public class GraphMatchingAlgorithm {
 		
 		// Sortiere die Elemente der T-Listen nach dem Startwert
 		sortTListsByStartValue(patternNodes);
+		patternNodesWithListAndStack = patternNodes;
 		
 		// Wende rekursiven Algorithmus auf PatternNodes an
 		Vertex root = getRoot(patternNodes);
@@ -30,8 +31,8 @@ public class GraphMatchingAlgorithm {
 		Stack<ArrayList<Vertex>> solutions = node.getProperty("solutionStack");
 		for (ArrayList<Vertex> aSolution : solutions) {
 			// Letztes nicht zur Lösung gehörendes Root-Objekt löschen
-			aSolution.remove(aSolution.size()-1);
-			if (!hasPortDuplicates(aSolution))
+			aSolution.remove(aSolution.size()-1); // diese Zeile in die übernächste setzen
+			if (!hasPortDuplicates(aSolution) && aSolution.size() == patternNodesWithListAndStack.size())
 				return aSolution;
 		}
 		return null;
@@ -223,7 +224,6 @@ public class GraphMatchingAlgorithm {
 	}
 
 	private static void initiateListsAndStacks(ArrayList<Vertex> dataNodes, ArrayList<Vertex> patternNodes) {
-		patternNodesWithListAndStack.clear();
 		for (Vertex patternNode : patternNodes) {
 			String patternNodeOperationType = patternNode.getProperty("operationType");
 			ArrayList<Vertex> targetList = new ArrayList<Vertex>();
