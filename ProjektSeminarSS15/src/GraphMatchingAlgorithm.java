@@ -73,12 +73,29 @@ public class GraphMatchingAlgorithm {
 		while (counter < numberOfChildren) {
 			generateSolution(children.get(counter)); 
 			Stack<ArrayList<Vertex>> solution = join((Stack<ArrayList<Vertex>>) node.getProperty("solutionStack"), (Stack<ArrayList<Vertex>>) children.get(counter).getProperty("solutionStack"));
+			printSolution(solution, node);
 			node.setProperty("solutionStack", solution);
 			counter++;
 		}
 	}
 
+
+	private static void printSolution(Stack<ArrayList<Vertex>> solution, Vertex node) {
+		String vertexName = node.getId() + "_" + node.getProperty("operationType");
+		System.out.println(vertexName + ": ");
+		for (ArrayList<Vertex> solutionPart : solution) {
+			for (Vertex solutionNode : solutionPart) {
+				System.out.print(solutionNode.getId() + "  ");
+			}
+			System.out.println();
+		}
+	}
+
 	private static Stack<ArrayList<Vertex>> join(Stack<ArrayList<Vertex>> solutionStackFromParent, Stack<ArrayList<Vertex>> solutionStackFromChild) {
+		System.out.println("solutionStackFromParent:");
+		printSolution(solutionStackFromParent);
+		System.out.println("solutionStackFromChild:");
+		printSolution(solutionStackFromChild);
 		Stack<ArrayList<Vertex>> solution = new Stack<ArrayList<Vertex>>();
 		for (ArrayList<Vertex> solutionFromChild : solutionStackFromChild) {
 			for (ArrayList<Vertex> solutionFromParent : solutionStackFromParent) {
@@ -95,6 +112,16 @@ public class GraphMatchingAlgorithm {
 			}
 		}
 		return solution;
+	}
+
+	private static void printSolution(Stack<ArrayList<Vertex>> solutionStackFromParent) {
+		for (ArrayList<Vertex> solutionPart : solutionStackFromParent) {
+			for (Vertex solutionNode : solutionPart) {
+				System.out.print(solutionNode.getId() + "  ");
+			}
+			System.out.println();
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")

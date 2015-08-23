@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
 import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import com.tinkerpop.blueprints.util.ElementHelper;
 
 public class GraphNumbering {
 	private static int startEnd = -1;
@@ -57,8 +60,13 @@ public class GraphNumbering {
 			node.setProperty("end", startEnd);
 			depth = depth - 1;
 		}
-
-		numberedNodes.add(node);
+		
+		// Hier wird der nummerierte Knoten kopiert, um nicht bei Mehrfachverwendung überschrieben zu werden
+		Graph graph = new TinkerGraph();
+		Vertex copiedNode = graph.addVertex(node.getId());
+		ElementHelper.copyProperties(node, copiedNode);
+		
+		numberedNodes.add(copiedNode);
 	}
 	
 	public static Iterable<Vertex> getChildren(Vertex node) {

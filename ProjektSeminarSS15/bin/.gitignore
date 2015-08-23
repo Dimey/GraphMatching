@@ -1,8 +1,2 @@
-/.DS_Store
-/DHMain.class
-/DataGraphWithoutCircle.xml
-/GraphMatchingAlgorithm$1.class
-/GraphMatchingAlgorithm.class
-/GraphNumbering.class
-/PatternGraphWithoutCircle.xml
-/GraphFiles/
+/com/
+/main/

@@ -13,7 +13,7 @@ import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
 
 public class DHMain {
  
-  private static final String XML_DATA = "src/GraphFiles/DataGraphWithoutCircle.xml";
+  private static final String XML_DATA = "src/GraphFiles/DataGraphWithMultipleUsage.xml";
   private static final String XML_PATTERN = "src/GraphFiles/PatternGraphWithoutCircle.xml";
  
   public static void main(String[] args) throws Exception {
@@ -66,12 +66,12 @@ public class DHMain {
 //      }
 //    }
 //    
-//    for (Vertex dataNode : dataNodes) {
-//    	System.out.println(dataNode.getId() + "_" + dataNode.getProperty("operationType") + "<" + dataNode.getProperty("start") + ","
-//    			+ dataNode.getProperty("end") + ","
-//    			+ dataNode.getProperty("depth") + ","
-//    			+ dataNode.getProperty("port") + ">");
-//    }
+    for (Vertex dataNode : dataNodes) {
+    	System.out.println(dataNode.getId() + "_" + dataNode.getProperty("operationType") + "<" + dataNode.getProperty("start") + ","
+    			+ dataNode.getProperty("end") + ","
+    			+ dataNode.getProperty("depth") + ","
+    			+ dataNode.getProperty("port") + ">");
+    }
 //    
 //    for (Vertex patternNode : patternNodes) {
 //    	System.out.println(patternNode.getId() + "_" + patternNode.getProperty("operationType") + "<" + patternNode.getProperty("targetList").toString() + ">");
