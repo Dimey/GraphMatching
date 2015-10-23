@@ -13,7 +13,7 @@ import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
 
 public class DHMain {
  
-  private static final String XML_DATA = "src/GraphFiles/DataGraphWithoutCircle.xml";
+  private static final String XML_DATA = "src/GraphFiles/DataGraphWithMultipleUsage.xml";
   private static final String XML_PATTERN = "src/GraphFiles/PatternGraphWithoutCircle.xml";
  
   public static void main(String[] args) throws Exception {
@@ -37,13 +37,14 @@ public class DHMain {
     ArrayList<Vertex> patternNodes = (ArrayList<Vertex>) patternGraph.getVertices();
     
     // Übergebe nummerierte Knoten und die Knoten des gesuchten Pattern dem Algorithmus
+    // Wenn es eine Übereinstimmung gibt, gebe EINE mögliche Lsg zurück, ansonsten Null
     ArrayList<Vertex> solution = GraphMatchingAlgorithm.getSolutions(dataNodes, patternNodes);
     
     if (solution == null) {
     	System.out.println("Keine Übereinstimmung gefunden!");
     } else {
     	System.out.println("Der Datengraph muss folgende Knoten einsetzen, um den Datenfluss des Kunden abzubilden:");
-    	for (Vertex solutionNode  : solution) {
+    	for (Vertex solutionNode : solution) {
     		System.out.println(solutionNode.getId() + "_" + solutionNode.getProperty("operationType"));
     	}
     }
@@ -66,12 +67,12 @@ public class DHMain {
 //      }
 //    }
 //    
-//    for (Vertex dataNode : dataNodes) {
-//    	System.out.println(dataNode.getId() + "_" + dataNode.getProperty("operationType") + "<" + dataNode.getProperty("start") + ","
-//    			+ dataNode.getProperty("end") + ","
-//    			+ dataNode.getProperty("depth") + ","
-//    			+ dataNode.getProperty("port") + ">");
-//    }
+    for (Vertex dataNode : dataNodes) {
+    	System.out.println(dataNode.getId() + "_" + dataNode.getProperty("operationType") + "<" + dataNode.getProperty("start") + ","
+    			+ dataNode.getProperty("end") + ","
+    			+ dataNode.getProperty("depth") + ","
+    			+ dataNode.getProperty("port") + ">");
+    }
 //    
 //    for (Vertex patternNode : patternNodes) {
 //    	System.out.println(patternNode.getId() + "_" + patternNode.getProperty("operationType") + "<" + patternNode.getProperty("targetList").toString() + ">");

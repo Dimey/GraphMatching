@@ -17,6 +17,7 @@ public class GraphMatchingAlgorithm {
 		
 		// Sortiere die Elemente der T-Listen nach dem Startwert
 		sortTListsByStartValue(patternNodes);
+		patternNodesWithListAndStack = patternNodes;
 		
 		// Wende rekursiven Algorithmus auf PatternNodes an
 		Vertex root = getRoot(patternNodes);
@@ -30,8 +31,8 @@ public class GraphMatchingAlgorithm {
 		Stack<ArrayList<Vertex>> solutions = node.getProperty("solutionStack");
 		for (ArrayList<Vertex> aSolution : solutions) {
 			// Letztes nicht zur Lösung gehörendes Root-Objekt löschen
-			aSolution.remove(aSolution.size()-1);
-			if (!hasPortDuplicates(aSolution))
+			aSolution.remove(aSolution.size()-1); // diese Zeile in die übernächste setzen
+			if (!hasPortDuplicates(aSolution) && aSolution.size() == patternNodesWithListAndStack.size())
 				return aSolution;
 		}
 		return null;
@@ -73,12 +74,29 @@ public class GraphMatchingAlgorithm {
 		while (counter < numberOfChildren) {
 			generateSolution(children.get(counter)); 
 			Stack<ArrayList<Vertex>> solution = join((Stack<ArrayList<Vertex>>) node.getProperty("solutionStack"), (Stack<ArrayList<Vertex>>) children.get(counter).getProperty("solutionStack"));
+			printSolution(solution, node);
 			node.setProperty("solutionStack", solution);
 			counter++;
 		}
 	}
 
+
+	private static void printSolution(Stack<ArrayList<Vertex>> solution, Vertex node) {
+		String vertexName = node.getId() + "_" + node.getProperty("operationType");
+		System.out.println(vertexName + ": ");
+		for (ArrayList<Vertex> solutionPart : solution) {
+			for (Vertex solutionNode : solutionPart) {
+				System.out.print(solutionNode.getId() + "  ");
+			}
+			System.out.println();
+		}
+	}
+
 	private static Stack<ArrayList<Vertex>> join(Stack<ArrayList<Vertex>> solutionStackFromParent, Stack<ArrayList<Vertex>> solutionStackFromChild) {
+		System.out.println("solutionStackFromParent:");
+		printSolution(solutionStackFromParent);
+		System.out.println("solutionStackFromChild:");
+		printSolution(solutionStackFromChild);
 		Stack<ArrayList<Vertex>> solution = new Stack<ArrayList<Vertex>>();
 		for (ArrayList<Vertex> solutionFromChild : solutionStackFromChild) {
 			for (ArrayList<Vertex> solutionFromParent : solutionStackFromParent) {
@@ -95,6 +113,16 @@ public class GraphMatchingAlgorithm {
 			}
 		}
 		return solution;
+	}
+
+	private static void printSolution(Stack<ArrayList<Vertex>> solutionStackFromParent) {
+		for (ArrayList<Vertex> solutionPart : solutionStackFromParent) {
+			for (Vertex solutionNode : solutionPart) {
+				System.out.print(solutionNode.getId() + "  ");
+			}
+			System.out.println();
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -196,7 +224,6 @@ public class GraphMatchingAlgorithm {
 	}
 
 	private static void initiateListsAndStacks(ArrayList<Vertex> dataNodes, ArrayList<Vertex> patternNodes) {
-		patternNodesWithListAndStack.clear();
 		for (Vertex patternNode : patternNodes) {
 			String patternNodeOperationType = patternNode.getProperty("operationType");
 			ArrayList<Vertex> targetList = new ArrayList<Vertex>();
