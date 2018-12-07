@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+    <!-- Properties -->
+    <key id="operationType" for="node" attr.name="operationType" attr.type="string"></key>
+    <key id="busWidth" for="edge" attr.name="busWidth" attr.type="int"></key>
+    <!-- Graph -->
+    <graph id="G" edgedefault="directed">
+        <!-- Vertices -->
+        <node id="X">
+            <data key="operationType">VAR</data>
+        </node>
+        <node id="Z1">
+            <data key="operationType">VAR</data>
+        </node>
+        <node id="Y">
+            <data key="operationType">VAR</data>
+        </node>
+        <node id="Z2">
+            <data key="operationType">VAR</data>
+        </node>
+        <node id="N10">
+            <data key="operationType">ADD</data>
+        </node>
+        <node id="N11">
+            <data key="operationType">SUB</data>
+        </node>
+        <node id="N12">
+            <data key="operationType">LOG</data>
+        </node>
+        <node id="OUT2">
+            <data key="operationType">OUT</data>
+        </node>
+        <!-- Edges -->
+        <edge id="107" source="X" target="N11">
+        </edge>
+        <edge id="108" source="Z1" target="N11">
+        </edge>
+        <edge id="109" source="Y" target="N10">
+        </edge>
+        <edge id="110" source="Z2" target="N10">
+        </edge>
+        <edge id="111" source="N11" target="N12">
+        </edge>
+        <edge id="112" source="N10" target="N12">
+        </edge>
+        <edge id="113" source="N12" target="OUT2">
+        </edge>
+    </graph>
+</graphml>
