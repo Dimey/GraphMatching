@@ -135,7 +135,12 @@ public class GraphMatchingAlgorithm {
 			} else if ((Integer) currentTarget.getProperty("start") < (Integer) ((Vertex) patternNode.getProperty("currentTarget")).getProperty("start")) {
 				// Zurück zur while-Schleife
 			} else if ((Integer)currentTarget.getProperty("depth") == (Integer)((Vertex) patternNode.getProperty("currentTarget")).getProperty("depth")+1 && find(currentChild)) {
-					   ArrayList<Vertex> potentialSolution = new ArrayList<Vertex>(Arrays.asList(currentTarget, (Vertex) patternNode.getProperty("currentTarget")));
+				       // Hier müssen noch jeweils das Feld für jede Teillösung hinzugefügt werden,
+				       // in dem gespeichert wird, für welchen Patternknoten er der jeweilige Representant ist
+				       Vertex currentTargetFromParent = patternNode.getProperty("currentTarget");
+				       currentTargetFromParent.setProperty("solutionRepresentant", patternNode);
+				       currentTarget.setProperty("solutionRepresentant", currentChild);
+					   ArrayList<Vertex> potentialSolution = new ArrayList<Vertex>(Arrays.asList(currentTarget, currentTargetFromParent));
 				       ((Stack<ArrayList<Vertex>>) currentChild.getProperty("solutionStack")).push(potentialSolution); 
 				       partialSolution=true;
 			}

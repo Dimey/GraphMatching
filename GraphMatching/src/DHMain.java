@@ -31,6 +31,8 @@ public class DHMain {
     patternReader.inputGraph(patternStream);
     
     // Nummeriere die Knoten des Grapen mit StartEnd-, Depth- und Portattributen und gebe sie als Array zurück
+    // TODO: Gliedere getRoot-Funktion in die getNumberedNodes Funktion aus, so dass diese
+    // direkt den Mastergraph Datei übergeben bekommt
     ArrayList<Vertex> dataNodes = GraphNumbering.getNumberedNodes(getRoot(masterGraph));
     
     // Extrahiere Knoten aus dem Pattern
